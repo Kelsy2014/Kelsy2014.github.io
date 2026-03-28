@@ -203,24 +203,25 @@
     </div>
   </div>
 
-  <div class="contact-form" id="contact-form" role="form" aria-label="Contact form">
+  <form class="contact-form" id="contact-form" aria-label="Contact form"
+        action="https://formspree.io/f/YOUR_FORM_ID" method="POST" novalidate>
     <div class="form-row">
       <div class="form-group">
         <label for="first-name">First name</label>
-        <input id="first-name" type="text" placeholder="Jane" autocomplete="given-name" />
+        <input id="first-name" name="first-name" type="text" placeholder="Jane" autocomplete="given-name" required />
       </div>
       <div class="form-group">
         <label for="last-name">Last name</label>
-        <input id="last-name" type="text" placeholder="Smith" autocomplete="family-name" />
+        <input id="last-name" name="last-name" type="text" placeholder="Smith" autocomplete="family-name" />
       </div>
     </div>
     <div class="form-group">
       <label for="email">Email</label>
-      <input id="email" type="email" placeholder="jane@email.com" autocomplete="email" />
+      <input id="email" name="email" type="email" placeholder="jane@email.com" autocomplete="email" required />
     </div>
     <div class="form-group">
       <label for="service">Service interested in</label>
-      <select id="service">
+      <select id="service" name="service" required>
         <option value="">Select a service...</option>
         <option value="home-organizing">Home Organizing</option>
         <option value="virtual-organizing">Virtual Organizing</option>
@@ -231,10 +232,10 @@
     </div>
     <div class="form-group">
       <label for="message">Tell me a little about your space</label>
-      <textarea id="message" placeholder="What area(s) are you hoping to tackle? Any context helps!"></textarea>
+      <textarea id="message" name="message" placeholder="What area(s) are you hoping to tackle? Any context helps!"></textarea>
     </div>
-    <button class="btn-submit">Send My Message</button>
-  </div>
+    <button type="submit" class="btn-submit">Send My Message</button>
+  </form>
 </section>
 
 </main>

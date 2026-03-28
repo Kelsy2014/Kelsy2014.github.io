@@ -37,42 +37,58 @@ function initSmoothScroll() {
 }
 
 /**
- * Contact form — prevent default submission, validate required fields,
+ * Contact form — submit to Formspree via fetch, validate required fields,
  * and replace the form with a confirmation message on success.
- * @param {HTMLElement} formWrapper - Container holding the form fields and submit button.
+ * @param {HTMLFormElement} form - The contact form element.
  * @returns {void}
  */
-function initContactForm(formWrapper) {
-  const btn = formWrapper.querySelector('.btn-submit');
-  if (!btn) return;
+function initContactForm(form) {
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-  btn.addEventListener('click', () => {
     const firstName = /** @type {HTMLInputElement} */ (document.getElementById('first-name'));
     const email     = /** @type {HTMLInputElement} */ (document.getElementById('email'));
     const service   = /** @type {HTMLSelectElement} */ (document.getElementById('service'));
 
     if (!firstName.value.trim() || !email.value.trim() || !service.value) {
-      // Surface native validation
       firstName.reportValidity?.();
       email.reportValidity?.();
       service.reportValidity?.();
       return;
     }
 
-    // Replace form with thank-you message — no innerHTML with user data
-    const msg = document.createElement('div');
-    msg.className = 'form-success';
+    const btn = form.querySelector('.btn-submit');
+    if (btn) btn.setAttribute('disabled', 'true');
 
-    const heading = document.createElement('p');
-    heading.className = 'form-success-heading';
-    heading.textContent = 'Message sent!';
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' },
+      });
 
-    const body = document.createElement('p');
-    body.textContent = "Thanks for reaching out. I'll be in touch within 24–48 hours.";
+      if (!res.ok) throw new Error('Network response was not ok');
 
-    msg.appendChild(heading);
-    msg.appendChild(body);
-    formWrapper.replaceWith(msg);
+      const msg = document.createElement('div');
+      msg.className = 'form-success';
+
+      const heading = document.createElement('p');
+      heading.className = 'form-success-heading';
+      heading.textContent = 'Message sent!';
+
+      const body = document.createElement('p');
+      body.textContent = "Thanks for reaching out. I'll be in touch within 24–48 hours.";
+
+      msg.appendChild(heading);
+      msg.appendChild(body);
+      form.replaceWith(msg);
+    } catch {
+      if (btn) btn.removeAttribute('disabled');
+      const err = form.querySelector('.form-error') || document.createElement('p');
+      err.className = 'form-error';
+      err.textContent = 'Something went wrong — please try emailing directly.';
+      if (!form.contains(err)) form.appendChild(err);
+    }
   });
 }
 

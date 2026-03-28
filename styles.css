@@ -368,6 +368,7 @@ footer {
   font-size: 28px; font-weight: 300; color: white;
 }
 .form-success p { color: var(--warm-gray); font-size: 15px; }
+.form-error { color: #c0392b; font-size: 14px; margin-top: 0.5rem; }
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
