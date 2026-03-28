@@ -377,6 +377,7 @@ footer {
   .hero-bg-shape { display: none; }
   nav { padding: 0 1.5rem; }
   .btn-menu { display: flex; }
+  .btn-nav { display: none; }
   .nav-links { display: none; }
   .nav-links.nav-open {
     display: flex; flex-direction: column; gap: 0;
